@@ -1,0 +1,63 @@
+CONFIGURANDO O AMBIENTE
+Crie uma pasta no local onde vai ficar o código fonte;
+
+Faça clone da solução através da linha de comando (cmd ou git bash), isso ira criar a pasta Solarize:
+"git clone {url_git} "
+
+Caso sua máquina não esteje no domínio
+git clone http://username:password@tfs-ng:8080/tfs/Imaginatto/_git/Solarize
+
+Este projeto está configurado para trabalhar com o domínio "http://qualquernome.dev.local.com.br:8080 ", portanto, você precisará configurar o seu servidor web para: ouvir a porta 8080 e deverá ter um virtual host configurado para "traduzir" o domínio "solarize.dev.local.com.br:8080".
+CONFIGURANDO O VIRTUAL HOST NO WAMP
+Acesse a pasta de instalação do Wamp Server e navegue até a pasta:
+D:\Wamp64\bin\apache\apache2.4.37\conf\extra.
+
+Abra o arquivo httpd-vhosts.conf para realizar edição.
+
+Adicione a seguinte instrução:
+
+<VirtualHost qualquernome.dev.local.com.br:8080>
+  ServerName qualquernome.dev.local.com.br
+  ServerAlias qualquernome.dev.local.com.br
+  DocumentRoot "{PROJECT_PATH}"
+  <Directory "{PROJECT_PATH}/">
+    Options +Indexes +Includes +FollowSymLinks +MultiViews
+    AllowOverride All
+    Require local
+  </Directory>
+</VirtualHost>
+
+Para versões mais recentes adicione a seguinte instrução: 
+
+<VirtualHost *:8080>
+	ServerName qualquernome.dev.local.com.br
+	DocumentRoot "{PROJECT_PATH}"
+	<Directory  "{PROJECT_PATH}/">
+		Options +Indexes +Includes +FollowSymLinks +MultiViews
+		AllowOverride All
+		Require local
+	</Directory>
+</VirtualHost>
+
+
+
+Substitua a string {PROJECT_PATH} pelo caminho físico até onde você baixou o projeto.
+
+Agora abra seu arquivo "hosts" com o notepad ou notepad++:
+C:\Windows\System32\drivers\etc\hosts
+
+Adicione a seguinte instrução no final do arquivo
+
+NOME DO PROJETO
+127.0.0.{SUBREDE} qualquernome.dev.local.com.br
+::{SUBREDE} qualquernome.dev.local.com.br
+
+Acesse a pasta:
+C:\wamp64\bin\apache\apache2.4.41\conf
+
+Abra o arquivo "httpd.conf" com o notepad e adicione o trecho:
+Listen [::0]:8080
+
+Para versões mais recentes do WampServer adicione:
+Listen 0.0.0.0:8080
+Listen [::0]:8080
